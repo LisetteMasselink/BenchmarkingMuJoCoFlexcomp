@@ -1,0 +1,43 @@
+<mujoco model="case1">
+    <option timestep=".002" integrator = "discrete" solver = "Newton" iterations = "500" gravity = "0 0 0">       
+    </option>
+
+    <visual>
+        <map force="0.001"/>
+        <scale framelength="0.05" framewidth="0.005"/>
+        <global offheight="640"/>
+    </visual>
+
+    <asset>
+        <texture name="skybox" type="skybox" builtin="flat" rgb1="1 1 1" rgb2="1 1 1" width="512" height="512"/>
+    </asset>
+
+    <worldbody>
+        <light name="top" pos="0 0 0.5" dir="0 0 -1" directional="true" castshadow="false"/>
+        <body name="bottom_plate" pos="0 0 -0.01">
+            <geom name="bottom_plate" type="box" size="0.05 0.05 0.01" rgba=".8 .3 .2 1"/>
+        </body>
+
+        <!-- soft cube, 70 x 70 x 25 mm: spans z = 0 to 25 mm, bottom layer pinned on the bottom plate -->
+        <body name="cube" pos="0 0 0.0125">
+            <flexcomp type="grid" dim="3" name="cube" rgba=".2 .6 .9 .5" radius="0.0"
+                      pos="0 0 0" spacing="0.005 0.005 0.005" count="15 15 6"  mass = "0.1274">  <!-- 1040 kg/m3 (Ecoflex) x 70 x 70 x 25 mm -->
+                <!-- stiff contact: priority="1" so these settings are used instead of being averaged
+                     (solmix) with the plates' default solref 0.02; small time constant because the
+                     contact force scales with the very light vertex mass (~94 mg) -->
+                <contact condim="3" priority="1" solref="0.004 1" solimp=".95 .99 .001 0.5 2" selfcollide="none" />
+                <elasticity young="55e3" poisson="0.485" damping="0.002"/>
+                <pin id="0 6 12 18 24 30 36 42 48 54 60 66 72 78 84 90 96 102 108 114 120 126 132 138 144 150 156 162 168 174 180 186 192 198 204 210 216 222 228 234 240 246 252 258 264 270 276 282 288 294 300 306 312 318 324 330 336 342 348 354 360 366 372 378 384 390 396 402 408 414 420 426 432 438 444 450 456 462 468 474 480 486 492 498 504 510 516 522 528 534 540 546 552 558 564 570 576 582 588 594 600 606 612 618 624 630 636 642 648 654 660 666 672 678 684 690 696 702 708 714 720 726 732 738 744 750 756 762 768 774 780 786 792 798 804 810 816 822 828 834 840 846 852 858 864 870 876 882 888 894 900 906 912 918 924 930 936 942 948 954 960 966 972 978 984 990 996 1002 1008 1014 1020 1026 1032 1038 1044 1050 1056 1062 1068 1074 1080 1086 1092 1098 1104 1110 1116 1122 1128 1134 1140 1146 1152 1158 1164 1170 1176 1182 1188 1194 1200 1206 1212 1218 1224 1230 1236 1242 1248 1254 1260 1266 1272 1278 1284 1290 1296 1302 1308 1314 1320 1326 1332 1338 1344"/>
+            </flexcomp>
+        </body>
+
+        <body name="indenter" pos="0 0 0.036">
+            <joint type="slide" name="press" axis="0 0 1"/>
+            <geom name="indenter" type="sphere" size="0.01" mass="0.2" contype="2" conaffinity="1" rgba=".3 .7 .3 1"/>
+        </body>
+    </worldbody>
+
+    <actuator>
+        <position name="press_drive" joint="press" kp="1e5" kv="450"/>
+    </actuator>
+</mujoco>

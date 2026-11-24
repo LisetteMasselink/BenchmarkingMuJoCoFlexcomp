@@ -1,0 +1,23 @@
+# Tested with Python 3.13.2. Versions match the project venv.
+# Exact pins: simulation results can change between MuJoCo versions.
+
+# Simulation
+mujoco==4.0.0
+# mujoco-core 
+# mujoco-studio=4.0.1
+# mujoco-usd==4.0.1
+
+# Numerics and data
+numpy==2.5.3
+pandas==3.0.6
+openpyxl==3.1.5  # pandas.read_excel, for the COMSOL .xlsx exports
+
+# Plotting and images
+matplotlib==3.11.2
+pillow==12.3.0
+
+# Meshes
+meshio==5.3.5
+trimesh==5.1.0
+rtree==1.4.1     # trimesh.proximity, used in setupfiles/findpins.py
+scipy==1.18.1    # trimesh.proximity, used in setupfiles/findpins.py

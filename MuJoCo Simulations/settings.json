@@ -1,0 +1,82 @@
+{
+  "case1": {
+    "description": "spherical indentation: rigid sphere (R = 10 mm) pressed into a 70 x 70 x 25 mm cube, bottom layer pinned",
+    "xml": "src/models/model1.xml",
+    "flex": "cube",
+    "tool": {
+      "geoms": [
+        "indenter"
+      ],
+      "joint": "press",
+      "actuator": "press_drive"
+    },
+    "base": {
+      "geoms": [
+        "bottom_plate"
+      ],
+      "name": "bottom plate"
+    },
+    "surface": "top",
+    "model": {},
+    "protocol": {
+      "type": "ramp",
+      "settle_time": 0.001,
+      "speed": 0.001,
+      "indent_depth": 0.009,
+      "hold_time": 0
+    },
+    "comsol": "case1"
+  },
+  "case2": {
+    "description": "compression: cube between a fixed bottom plate and a pressing top plate",
+    "xml": "src/models/model2.xml",
+    "flex": "cube",
+    "tool": {
+      "body": "top_plate",
+      "joint": "press",
+      "actuator": "press_drive"
+    },
+    "base": {
+      "geoms": [
+        "bottom_plate"
+      ],
+      "name": "bottom plate"
+    },
+    "surface": "top",
+    "model": {},
+    "protocol": {
+      "type": "ramp",
+      "settle_time": 0.01,
+      "speed": 0.001,
+      "indent_depth": 0.005,
+      "hold_time": 0.0
+    },
+    "comsol": "case2"
+  },
+  "case3": {
+    "description": "exo plates pressing on the thigh (hollow cylinder) pinned to the femur",
+    "xml": "src/models/model3.xml",
+    "flex": "thigh",
+    "tool": {
+      "body": "exo",
+      "joint": "root",
+      "actuator": "exo_drive"
+    },
+    "base": {
+      "geoms": [
+        "femur"
+      ],
+      "name": "femur"
+    },
+    "surface": null,
+    "model": {},
+    "protocol": {
+      "type": "ramp",
+      "settle_time": 0.01,
+      "speed": 0.001,
+      "indent_depth": 0.01,
+      "hold_time": 0.0
+    },
+    "comsol": "case3"
+  }
+}
